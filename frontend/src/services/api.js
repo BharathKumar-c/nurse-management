@@ -1,8 +1,20 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
+const buildQueryString = (params = {}) => {
+  const searchParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') {
+      searchParams.append(key, value);
+    }
+  });
+  return searchParams.toString();
+};
+
 export const api = {
-  async getNurses() {
-    const response = await fetch(`${API_BASE_URL}/nurses`);
+  async getNurses(params = {}) {
+    const queryString = buildQueryString(params);
+    const url = queryString ? `${API_BASE_URL}/nurses?${queryString}` : `${API_BASE_URL}/nurses`;
+    const response = await fetch(url);
     if (!response.ok) throw new Error('Failed to fetch nurses');
     return response.json();
   },

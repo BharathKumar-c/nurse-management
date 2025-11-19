@@ -128,12 +128,12 @@ This project is being developed in multiple stages:
 - CSV/XLSX export services
 - Postman collection + API documentation
 
-### Stage 3: Frontend Implementation (Pending)
-- Complete UI components
-- Table with sorting functionality
-- Add/Edit modal
-- Search functionality
-- Download buttons
+### Stage 3: Frontend Implementation ✅
+- Responsive UI with TailwindCSS
+- Sortable table + inline actions
+- Modal for add/edit + validation
+- Search with debounce + refresh control
+- CSV/XLSX download buttons hooked to API
 
 ## API Endpoints
 
@@ -156,11 +156,11 @@ See `API_DOCUMENTATION.md` for full request/response samples.
 - ✅ CRUD operations for nurse records
 - ✅ MySQL database integration
 - ✅ RESTful API design with validation
-- ✅ API search + sorting
-- ✅ CSV/XLSX export services
-- 🔄 Frontend table sorting (UI)
-- 🔄 Frontend search UX
-- 🔄 Modal for add/edit (frontend)
+- ✅ API search + sorting + export services
+- ✅ React UI with sortable table + search + debounced refresh
+- ✅ Add/Edit modal with auto age calculation
+- ✅ Download CSV/XLSX buttons
+- ✅ Toast feedback + loading states
 
 ## License
 
