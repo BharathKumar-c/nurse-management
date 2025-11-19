@@ -1,0 +1,126 @@
+{
+  "info": {
+    "name": "Nurse Management API",
+    "_postman_id": "c640ca41-2f13-4f3f-9d76-4f95377c5f2a",
+    "description": "Collection covering all Nurse Management API endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get All Nurses",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/nurses",
+          "host": ["{{base_url}}"],
+          "path": ["api", "nurses"]
+        }
+      }
+    },
+    {
+      "name": "Search & Sort Nurses",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/nurses?search=Daniel&sortField=name&sortOrder=asc",
+          "host": ["{{base_url}}"],
+          "path": ["api", "nurses"],
+          "query": [
+            { "key": "search", "value": "Daniel" },
+            { "key": "sortField", "value": "name" },
+            { "key": "sortOrder", "value": "asc" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Nurse by Id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/nurses/:id",
+          "host": ["{{base_url}}"],
+          "path": ["api", "nurses", ":id"]
+        }
+      }
+    },
+    {
+      "name": "Create Nurse",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Daniel\",\n  \"license_number\": \"2147483647\",\n  \"date_of_birth\": \"2000-10-16\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/nurses",
+          "host": ["{{base_url}}"],
+          "path": ["api", "nurses"]
+        }
+      }
+    },
+    {
+      "name": "Update Nurse",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Daniel Joseph\",\n  \"license_number\": \"2147483647\",\n  \"date_of_birth\": \"2000-10-16\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/nurses/:id",
+          "host": ["{{base_url}}"],
+          "path": ["api", "nurses", ":id"]
+        }
+      }
+    },
+    {
+      "name": "Delete Nurse",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/nurses/:id",
+          "host": ["{{base_url}}"],
+          "path": ["api", "nurses", ":id"]
+        }
+      }
+    },
+    {
+      "name": "Export Nurses CSV",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/nurses/export/csv",
+          "host": ["{{base_url}}"],
+          "path": ["api", "nurses", "export", "csv"]
+        }
+      }
+    },
+    {
+      "name": "Export Nurses XLSX",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/nurses/export/xlsx",
+          "host": ["{{base_url}}"],
+          "path": ["api", "nurses", "export", "xlsx"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000"
+    }
+  ]
+}
+

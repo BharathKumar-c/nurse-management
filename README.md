@@ -122,10 +122,11 @@ This project is being developed in multiple stages:
 - Basic startup scripts
 - Database schema
 
-### Stage 2: API Implementation (In Progress)
-- Complete all REST API endpoints
-- Postman collection documentation
-- Export functionality (CSV/XLSX)
+### Stage 2: API Implementation ✅
+- Fully functional REST API endpoints with validation
+- Search and sorting using query parameters
+- CSV/XLSX export services
+- Postman collection + API documentation
 
 ### Stage 3: Frontend Implementation (Pending)
 - Complete UI components
@@ -136,23 +137,30 @@ This project is being developed in multiple stages:
 
 ## API Endpoints
 
-- `GET /api/nurses` - Get all nurses
+See `API_DOCUMENTATION.md` for full request/response samples.
+
+- `GET /api/nurses` - Get all nurses (supports `search`, `sortField`, `sortOrder`)
 - `GET /api/nurses/:id` - Get nurse by ID
-- `POST /api/nurses` - Create new nurse
+- `POST /api/nurses` - Create new nurse (age auto-calculated from DOB)
 - `PUT /api/nurses/:id` - Update nurse
 - `DELETE /api/nurses/:id` - Delete nurse
 - `GET /api/nurses/export/csv` - Export as CSV
 - `GET /api/nurses/export/xlsx` - Export as XLSX
 
+### Postman Collection
+- Import `postman/NurseManagement.postman_collection.json`
+- Set the `base_url` variable to `http://localhost:5000`
+
 ## Features
 
 - ✅ CRUD operations for nurse records
 - ✅ MySQL database integration
-- ✅ RESTful API design
-- 🔄 Table sorting (to be implemented)
-- 🔄 Search functionality (to be implemented)
-- 🔄 CSV/XLSX export (to be implemented)
-- 🔄 Modal for add/edit (to be implemented)
+- ✅ RESTful API design with validation
+- ✅ API search + sorting
+- ✅ CSV/XLSX export services
+- 🔄 Frontend table sorting (UI)
+- 🔄 Frontend search UX
+- 🔄 Modal for add/edit (frontend)
 
 ## License
 
