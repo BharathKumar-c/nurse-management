@@ -18,8 +18,11 @@ export const getAllNurses = async (req, res) => {
     const params = [];
 
     if (search) {
-      filters.push('(name LIKE ? OR license_number LIKE ?)');
-      params.push(`%${search}%`, `%${search}%`);
+      filters.push(
+        `(name LIKE ? OR license_number LIKE ? OR DATE_FORMAT(date_of_birth, '%Y-%m-%d') LIKE ? OR DATE_FORMAT(date_of_birth, '%d-%m-%Y') LIKE ? OR CAST(age AS CHAR) LIKE ?)`
+      );
+      const wildcard = `%${search}%`;
+      params.push(wildcard, wildcard, wildcard, wildcard, wildcard);
     }
 
     const whereClause = filters.length ? `WHERE ${filters.join(' AND ')}` : '';
@@ -59,7 +62,9 @@ export const createNurse = async (req, res) => {
     const licenseAvailable = await checkLicenseNumberAvailability(license_number);
 
     if (!licenseAvailable) {
-      return res.status(409).json({ error: 'License number already exists' });
+      return res.status(409).json({
+        error: 'License Number already exists. Please enter a unique License Number.'
+      });
     }
 
     const age = calculateAgeFromDOB(date_of_birth);
@@ -85,7 +90,9 @@ export const updateNurse = async (req, res) => {
     const licenseAvailable = await checkLicenseNumberAvailability(license_number, id);
 
     if (!licenseAvailable) {
-      return res.status(409).json({ error: 'License number already exists' });
+      return res.status(409).json({
+        error: 'License Number already exists. Please enter a unique License Number.'
+      });
     }
 
     const age = calculateAgeFromDOB(date_of_birth);

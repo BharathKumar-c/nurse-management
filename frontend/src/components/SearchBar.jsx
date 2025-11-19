@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SearchBar = ({ value, onChange, onRefresh }) => {
+const SearchBar = ({value, onChange, onRefresh}) => {
   return (
     <div className="flex items-center gap-3 w-full">
       <div className="relative flex-1">
@@ -11,8 +11,7 @@ const SearchBar = ({ value, onChange, onRefresh }) => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-5 h-5"
-          >
+            className="w-5 h-5">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -31,8 +30,7 @@ const SearchBar = ({ value, onChange, onRefresh }) => {
       <button
         type="button"
         onClick={onRefresh}
-        className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-      >
+        className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
         Refresh
       </button>
     </div>
@@ -40,4 +38,3 @@ const SearchBar = ({ value, onChange, onRefresh }) => {
 };
 
 export default SearchBar;
-

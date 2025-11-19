@@ -1,5 +1,28 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
+const extractErrorMessage = (payload) => {
+  if (!payload || typeof payload !== 'object') return null;
+  if (typeof payload.error === 'string') return payload.error;
+  if (typeof payload.message === 'string') return payload.message;
+  if (Array.isArray(payload.errors) && payload.errors[0]?.msg) {
+    return payload.errors[0].msg;
+  }
+  return null;
+};
+
+const handleJSONResponse = async (response, fallbackMessage) => {
+  const contentType = response.headers.get('content-type') || '';
+  const isJSON = contentType.includes('application/json');
+  const data = isJSON ? await response.json() : null;
+
+  if (!response.ok) {
+    const message = extractErrorMessage(data) || fallbackMessage;
+    throw new Error(message);
+  }
+
+  return data;
+};
+
 const buildQueryString = (params = {}) => {
   const searchParams = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {
@@ -15,14 +38,12 @@ export const api = {
     const queryString = buildQueryString(params);
     const url = queryString ? `${API_BASE_URL}/nurses?${queryString}` : `${API_BASE_URL}/nurses`;
     const response = await fetch(url);
-    if (!response.ok) throw new Error('Failed to fetch nurses');
-    return response.json();
+    return handleJSONResponse(response, 'Failed to fetch nurses');
   },
 
   async getNurseById(id) {
     const response = await fetch(`${API_BASE_URL}/nurses/${id}`);
-    if (!response.ok) throw new Error('Failed to fetch nurse');
-    return response.json();
+    return handleJSONResponse(response, 'Failed to fetch nurse');
   },
 
   async createNurse(nurseData) {
@@ -31,8 +52,7 @@ export const api = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(nurseData)
     });
-    if (!response.ok) throw new Error('Failed to create nurse');
-    return response.json();
+    return handleJSONResponse(response, 'Failed to create nurse');
   },
 
   async updateNurse(id, nurseData) {
@@ -41,16 +61,14 @@ export const api = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(nurseData)
     });
-    if (!response.ok) throw new Error('Failed to update nurse');
-    return response.json();
+    return handleJSONResponse(response, 'Failed to update nurse');
   },
 
   async deleteNurse(id) {
     const response = await fetch(`${API_BASE_URL}/nurses/${id}`, {
       method: 'DELETE'
     });
-    if (!response.ok) throw new Error('Failed to delete nurse');
-    return response.json();
+    return handleJSONResponse(response, 'Failed to delete nurse');
   },
 
   async downloadCSV() {

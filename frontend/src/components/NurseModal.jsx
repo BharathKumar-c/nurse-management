@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { calculateAge } from '../utils/helpers.js';
+import React, {useEffect, useState} from 'react';
+import {calculateAge} from '../utils/helpers.js';
 
 const initialFormState = {
   name: '',
@@ -11,7 +11,7 @@ const initialFormState = {
 const fieldClasses =
   'w-full rounded-md border border-gray-200 px-3 py-2 text-sm text-gray-700 focus:border-indigo-500 focus:outline-none';
 
-const NurseModal = ({ isOpen, onClose, nurse, onSave, isSubmitting }) => {
+const NurseModal = ({isOpen, onClose, nurse, onSave, isSubmitting}) => {
   const [formData, setFormData] = useState(initialFormState);
   const [errors, setErrors] = useState({});
 
@@ -20,7 +20,9 @@ const NurseModal = ({ isOpen, onClose, nurse, onSave, isSubmitting }) => {
       setFormData({
         name: nurse.name || '',
         license_number: nurse.license_number || '',
-        date_of_birth: nurse.date_of_birth ? nurse.date_of_birth.split('T')[0] : '',
+        date_of_birth: nurse.date_of_birth
+          ? nurse.date_of_birth.split('T')[0]
+          : '',
         age: nurse.age || '',
       });
     } else {
@@ -32,12 +34,12 @@ const NurseModal = ({ isOpen, onClose, nurse, onSave, isSubmitting }) => {
   if (!isOpen) return null;
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const {name, value} = event.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-      ...(name === 'date_of_birth' && value
-        ? { age: calculateAge(value) }
+      ...(name === 'date_of_birth'
+        ? {age: value ? calculateAge(value) : ''}
         : {}),
     }));
   };
@@ -45,9 +47,12 @@ const NurseModal = ({ isOpen, onClose, nurse, onSave, isSubmitting }) => {
   const validateForm = () => {
     const validationErrors = {};
     if (!formData.name.trim()) validationErrors.name = 'Name is required';
-    if (!formData.license_number.trim()) validationErrors.license_number = 'License number is required';
-    if (!formData.date_of_birth) validationErrors.date_of_birth = 'Date of birth is required';
-    if (!formData.age && formData.age !== 0) validationErrors.age = 'Age is required';
+    if (!formData.license_number.trim())
+      validationErrors.license_number = 'License number is required';
+    if (!formData.date_of_birth)
+      validationErrors.date_of_birth = 'Date of birth is required';
+    if (!formData.age && formData.age !== 0)
+      validationErrors.age = 'Age is required';
 
     setErrors(validationErrors);
     return Object.keys(validationErrors).length === 0;
@@ -67,15 +72,26 @@ const NurseModal = ({ isOpen, onClose, nurse, onSave, isSubmitting }) => {
             <h3 className="text-xl font-semibold text-gray-900">
               {nurse ? 'Edit Nurse' : 'Add Nurse'}
             </h3>
-            <p className="text-sm text-gray-500">Fields marked * are required</p>
+            <p className="text-sm text-gray-500">
+              Fields marked * are required
+            </p>
           </div>
           <button
             onClick={onClose}
             className="rounded-full p-2 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600"
-            aria-label="Close modal"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18 18 6M6 6l12 12" />
+            aria-label="Close modal">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M6 18 18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -91,7 +107,9 @@ const NurseModal = ({ isOpen, onClose, nurse, onSave, isSubmitting }) => {
               className={fieldClasses}
               placeholder="e.g. Daniel"
             />
-            {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
+            {errors.name && (
+              <p className="mt-1 text-xs text-red-500">{errors.name}</p>
+            )}
           </div>
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700">
@@ -104,7 +122,11 @@ const NurseModal = ({ isOpen, onClose, nurse, onSave, isSubmitting }) => {
               className={fieldClasses}
               placeholder="e.g. 2147483647"
             />
-            {errors.license_number && <p className="mt-1 text-xs text-red-500">{errors.license_number}</p>}
+            {errors.license_number && (
+              <p className="mt-1 text-xs text-red-500">
+                {errors.license_number}
+              </p>
+            )}
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
@@ -118,37 +140,51 @@ const NurseModal = ({ isOpen, onClose, nurse, onSave, isSubmitting }) => {
                 onChange={handleChange}
                 className={fieldClasses}
               />
-              {errors.date_of_birth && <p className="mt-1 text-xs text-red-500">{errors.date_of_birth}</p>}
+              {errors.date_of_birth && (
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.date_of_birth}
+                </p>
+              )}
             </div>
-            <div>
+            <div className="relative group">
               <label className="mb-1 block text-sm font-medium text-gray-700">
-                Age *
+                Age
               </label>
               <input
                 type="number"
                 name="age"
                 value={formData.age}
-                onChange={handleChange}
-                className={fieldClasses}
+                className={`${fieldClasses} cursor-not-allowed bg-gray-50`}
                 min="0"
+                disabled
+                aria-describedby="age-tooltip"
               />
-              {errors.age && <p className="mt-1 text-xs text-red-500">{errors.age}</p>}
+              <span
+                id="age-tooltip"
+                className="pointer-events-none absolute left-1/2 z-10 mt-1 -translate-x-1/2 whitespace-nowrap rounded bg-gray-900 px-2 py-1 text-xs text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+                Age is automatically calculated from your Date of Birth.
+              </span>
+              {errors.age && (
+                <p className="mt-1 text-xs text-red-500">{errors.age}</p>
+              )}
             </div>
           </div>
           <div className="flex items-center justify-end gap-3 pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50"
-            >
+              className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50">
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-70"
-            >
-              {isSubmitting ? 'Saving...' : nurse ? 'Update Nurse' : 'Add Nurse'}
+              className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-70">
+              {isSubmitting
+                ? 'Saving...'
+                : nurse
+                ? 'Update Nurse'
+                : 'Add Nurse'}
             </button>
           </div>
         </form>
@@ -158,4 +194,3 @@ const NurseModal = ({ isOpen, onClose, nurse, onSave, isSubmitting }) => {
 };
 
 export default NurseModal;
-
